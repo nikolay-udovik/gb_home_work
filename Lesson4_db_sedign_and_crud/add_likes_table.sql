@@ -27,9 +27,9 @@ CREATE TABLE instances_ids (
 CREATE TABLE likes (
 	user_id INT UNSIGNED NOT NULL COMMENT 'who liked?',
 	content_id INT UNSIGNED NOT NULL COMMENT 'what liked?',
-    FOREIGN KEY (user_id) REFERENCES users(id),
+	FOREIGN KEY (user_id) REFERENCES users(id),
 	FOREIGN KEY (content_id) REFERENCES instances_ids(id),
-    PRIMARY KEY (user_id, content_id)
+	PRIMARY KEY (user_id, content_id)
 ) COMMENT 'LIKES';
 
 ALTER TABLE media ADD CONSTRAINT media_instance_id FOREIGN KEY (id) REFERENCES instances_ids(id);
