@@ -51,7 +51,7 @@ SELECT ANY_VALUE(name) AS user_example,
        DAYOFWEEK(
          	DATE_ADD(birthday_at, INTERVAL YEAR(CURRENT_DATE())-YEAR(birthday_at) YEAR)) 
          	AS day_of_the_week, 
-         COUNT(1) AS total_users		-- duplicates warning
+       COUNT(1) AS total_users		-- duplicates warning
   FROM users
  GROUP BY day_of_the_week
  ORDER BY day_of_the_week;

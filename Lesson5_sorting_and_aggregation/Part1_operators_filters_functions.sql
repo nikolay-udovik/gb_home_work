@@ -34,12 +34,12 @@ SELECT * FROM users;
 -- generate dummy data
 INSERT INTO users (username, created_at, updated_at) 
 VALUES ('orange', '12.05.2013 4:10', '20.10.2017 8:10'),
-	   ('apple', '11.9.2004 10:40', '04.08.2013 4:30'),
-	   ('mango', '30.11.2015 3:30', '24.01.2014 15:10');
+       ('apple', '11.9.2004 10:40', '04.08.2013 4:30'),
+       ('mango', '30.11.2015 3:30', '24.01.2014 15:10');
 
 -- SELECT 
 SELECT STR_TO_DATE(created_at, '%d.%m.%Y %H:%i'), 
-	   STR_TO_DATE(updated_at, '%d.%m.%Y %H:%i')
+       STR_TO_DATE(updated_at, '%d.%m.%Y %H:%i')
   FROM users 
  WHERE DATE(created_at) IS NULL 		-- if returned value is NULL it supposed to be in %d.%m.%Y %H:%i format. 
    AND DATE(updated_at) IS NULL;
@@ -47,9 +47,9 @@ SELECT STR_TO_DATE(created_at, '%d.%m.%Y %H:%i'),
 -- update
 UPDATE users
    SET created_at = STR_TO_DATE(created_at, '%d.%m.%Y %H:%i'),
-		updated_at = STR_TO_DATE(updated_at, '%d.%m.%Y %H:%i')
-WHERE created_at NOT RLIKE '^([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9]) (2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])$'
-  AND updated_at NOT RLIKE '^([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9]) (2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])$';
+       updated_at = STR_TO_DATE(updated_at, '%d.%m.%Y %H:%i')
+ WHERE created_at NOT RLIKE '^([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9]) (2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])$'
+   AND updated_at NOT RLIKE '^([0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9]) (2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])$';
 -- WHERE DATE(created_at) IS NULL
 --  AND DATE(updated_at) IS NULL;
  
@@ -126,7 +126,7 @@ INSERT INTO catalogs VALUES (1), (2), (3), (4), (5), (6);
 SELECT * 
   FROM catalogs 
  WHERE id IN (5, 1, 2) 
- ORDER BY FIELD(id, 5, 1, 2)
+ ORDER BY FIELD(id, 5, 1, 2);
 -- ORDER BY CASE 
 --          WHEN id = 1 
 --           THEN 3 
