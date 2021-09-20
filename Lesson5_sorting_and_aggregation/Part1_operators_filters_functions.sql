@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS l5_nikolay;
-CREATE DATABASE l5_nikolay;
-USE l5_nikolay;
+DROP DATABASE IF EXISTS l5_p1_nikolay;
+CREATE DATABASE l5_p1_nikolay;
+USE l5_p1_nikolay;
 
 /*
 1. Пусть в таблице users поля created_at и updated_at оказались незаполненными. 
@@ -126,12 +126,12 @@ INSERT INTO catalogs VALUES (1), (2), (3), (4), (5), (6);
 SELECT * 
   FROM catalogs 
  WHERE id IN (5, 1, 2) 
- ORDER BY CASE 
-          WHEN id = 1 
-          THEN 3 
-          ELSE id 
-          END DESC;
- 
+ ORDER BY FIELD(id, 5, 1, 2)
+-- ORDER BY CASE 
+--          WHEN id = 1 
+--           THEN 3 
+--           ELSE id 
+--           END DESC;
  
  
  
