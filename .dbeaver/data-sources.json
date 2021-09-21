@@ -1,0 +1,44 @@
+{
+	"folders": {},
+	"connections": {
+		"mysql8-17c09394df3-302ff1abc73f647d": {
+			"provider": "mysql",
+			"driver": "mysql8",
+			"name": "localhost",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"host": "localhost",
+				"port": "3306",
+				"url": "jdbc:mysql://localhost:3306/",
+				"home": "/usr/local/Cellar/mysql-client/8.0.26",
+				"type": "dev",
+				"auth-model": "native",
+				"handlers": {
+					"mysql_ssl": {
+						"type": "CONFIG",
+						"enabled": true,
+						"save-password": true,
+						"properties": {
+							"ssl.public.key.retrieve": "true",
+							"ssl.verify.server": "false",
+							"ssl.method": "CERTIFICATES",
+							"ssl.require": "false"
+						}
+					}
+				}
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"auto-close-transactions": false
+		}
+	}
+}
