@@ -9,7 +9,7 @@
 
 
 -- set target user here
-SET @target_user := 3; -- FLOOR(1 + 5 * RAND());
+SET @target_user := FLOOR(1 + 5 * RAND());
 SELECT @target_user;
 
 
@@ -67,10 +67,10 @@ LIMIT 1;
 
 
 
+
 /*
 3. Подсчитать общее количество лайков, которые получили 10 самых молодых пользователей.
 */
-ß
 
 WITH youngest_10 AS (
 	SELECT 
@@ -103,7 +103,7 @@ WITH ROLLUP;
 */
 
 
--- correlated subquerry is not the best idea but i wanted to try :)
+-- maybe correlated subquerry is not the best idea but i wanted to try :)
 SELECT 
 	(SELECT gender FROM users u WHERE u.id = li.user_id AND gender IN('F', 'M')) AS gender,
 	COUNT(1) AS total_likes
@@ -117,20 +117,27 @@ ORDER BY total_likes DESC;
 5. Найти 10 пользователей, которые проявляют наименьшую активность в использовании социальной сети.
 */
 
--- Top 10 'lazy' users are:
-Metric
--- CA
--- 1. Account is NOT disabled.
--- 2. The user didn't like content/users
--- 3. The user doesn't send messages
--- 4. Time Interval - from creating.
 
+/*
+README!
 
-metric is the summary of the fhese components:
+score:
+- score is a summary of all metrics
+metrics:
 - Amount of sent messages
+  - weight 10
 - Amount of likes 
-Another:
+  - weight 100
+- Amount of posts
+  - weight 500
 - Ignore disabled accounts
+what is "weight"? :
+- weight is a value assigned to each metric value and used as a multiplier for metrics.
+- the size of the weight depends on the importance of the metric. 
+  - For example, writing posts is costs time and describes user activity in the social networks much better than messages or likes
+  - likes are considered more expensive than messages because liking content is public action and also describes the social activity
+  - message is the cheapest. Users can send a lot of messages and stay inactive in the community, but we still should consider it.
+*/
 
 show tables;
 desc posts;
