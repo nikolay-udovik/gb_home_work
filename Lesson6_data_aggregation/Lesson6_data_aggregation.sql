@@ -70,9 +70,7 @@ LIMIT 1;
 /*
 3. Подсчитать общее количество лайков, которые получили 10 самых молодых пользователей.
 */
-
-
-SELECT user_id FROM profiles ORDER BY birthday ASC LIMIT 10 ; -- get top 10 the youngest users
+ß
 
 WITH youngest_10 AS (
 	SELECT 
@@ -103,6 +101,7 @@ WITH ROLLUP;
 /*
 4. Определить кто больше поставил лайков (всего) - мужчины или женщины?
 */
+
 
 -- correlated subquerry is not the best idea.
 SELECT 
