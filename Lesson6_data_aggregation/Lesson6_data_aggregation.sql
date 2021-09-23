@@ -72,12 +72,6 @@ LIMIT 1;
 */
 
 
-select version();
-select * from profiles limit 5;
-select * from likes limit 5;
-desc likes;
-select * from target_types;
-
 SELECT user_id FROM profiles ORDER BY birthday ASC LIMIT 10 ; -- get top 10 the youngest users
 
 WITH youngest_10 AS (
@@ -109,6 +103,8 @@ WITH ROLLUP;
 /*
 4. Определить кто больше поставил лайков (всего) - мужчины или женщины?
 */
+
+ß
 
 /*
 5. Найти 10 пользователей, которые проявляют наименьшую активность в использовании социальной сети.
