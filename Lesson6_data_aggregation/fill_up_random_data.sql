@@ -23,16 +23,17 @@ update friendship
 where 1 = 1;
 
 INSERT INTO `friendship` (`user_id`, `friend_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`, `request_type_id`) VALUES (1, 40, '1996-07-06 06:08:06', '2008-05-26 17:25:33', '2015-12-25 19:37:07', '2012-10-21 13:29:10', 2);
-INSERT INTO `friendship` (`user_id`, `friend_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`, `request_type_id`) VALUES (1, 40, '1974-08-05 23:22:06', '2008-07-07 00:49:23', '2001-08-30 08:45:51', '2009-09-01 15:28:24', 2);
-INSERT INTO `friendship` (`user_id`, `friend_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`, `request_type_id`) VALUES (1, 40, '2020-10-17 14:28:18', '2013-02-22 21:28:53', '1973-08-09 17:21:43', '1978-08-13 22:05:51', 2);
-INSERT INTO `friendship` (`user_id`, `friend_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`, `request_type_id`) VALUES (1, 40, '2020-10-17 14:28:18', '2013-02-22 21:28:53', '1973-08-09 17:21:43', '1978-08-13 22:05:51', 2);
-INSERT INTO `friendship` (`user_id`, `friend_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`, `request_type_id`) VALUES (1, 40, '2020-10-17 14:28:18', '2013-02-22 21:28:53', '1973-08-09 17:21:43', '1978-08-13 22:05:51', 2);
-INSERT INTO `friendship` (`user_id`, `friend_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`, `request_type_id`) VALUES (1, 40, '2020-10-17 14:28:18', '2013-02-22 21:28:53', '1973-08-09 17:21:43', '1978-08-13 22:05:51', 2);
+INSERT INTO `friendship` (`user_id`, `friend_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`, `request_type_id`) VALUES (1, 41, '1974-08-05 23:22:06', '2008-07-07 00:49:23', '2001-08-30 08:45:51', '2009-09-01 15:28:24', 2);
+INSERT INTO `friendship` (`user_id`, `friend_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`, `request_type_id`) VALUES (1, 42, '2020-10-17 14:28:18', '2013-02-22 21:28:53', '1973-08-09 17:21:43', '1978-08-13 22:05:51', 2);
+INSERT INTO `friendship` (`user_id`, `friend_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`, `request_type_id`) VALUES (1, 43, '2020-10-17 14:28:18', '2013-02-22 21:28:53', '1973-08-09 17:21:43', '1978-08-13 22:05:51', 2);
+INSERT INTO `friendship` (`user_id`, `friend_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`, `request_type_id`) VALUES (1, 44, '2020-10-17 14:28:18', '2013-02-22 21:28:53', '1973-08-09 17:21:43', '1978-08-13 22:05:51', 2);
+INSERT INTO `friendship` (`user_id`, `friend_id`, `requested_at`, `confirmed_at`, `created_at`, `updated_at`, `request_type_id`) VALUES (1, 45, '2020-10-17 14:28:18', '2013-02-22 21:28:53', '1973-08-09 17:21:43', '1978-08-13 22:05:51', 2);
 
 update friendship 
 	set 
+		user_id = FLOOR(1 + 5 * RAND()),
 		friend_id = FLOOR(1 + 5 * RAND())
-where 1 = 1;
+where friend_id > 10;
 
 
 -- 5 users that will contact to each other
