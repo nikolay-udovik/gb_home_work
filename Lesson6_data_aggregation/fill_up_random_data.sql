@@ -51,3 +51,8 @@ update likes set target_id = FLOOR(1 + 99 * RAND()) where 1 = 1;
 update likes set user_id = FLOOR(1 + 99 * RAND()) where 1 = 1; 
 
 SELECT * FROM likes;
+
+
+-- mess posts
+update posts set user_id = FLOOR(1 + 80 * RAND()) where 1 = 1;
+select * from posts;

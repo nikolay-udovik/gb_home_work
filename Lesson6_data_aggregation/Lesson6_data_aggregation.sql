@@ -103,7 +103,7 @@ WITH ROLLUP;
 */
 
 
--- correlated subquerry is not the best idea.
+-- correlated subquerry is not the best idea but i wanted to try :)
 SELECT 
 	(SELECT gender FROM users u WHERE u.id = li.user_id AND gender IN('F', 'M')) AS gender,
 	COUNT(1) AS total_likes
@@ -113,8 +113,63 @@ GROUP BY gender
 ORDER BY total_likes DESC;
 
 
-
 /*
 5. Найти 10 пользователей, которые проявляют наименьшую активность в использовании социальной сети.
 */
 
+-- Top 10 'lazy' users are:
+Metric
+-- CA
+-- 1. Account is NOT disabled.
+-- 2. The user didn't like content/users
+-- 3. The user doesn't send messages
+-- 4. Time Interval - from creating.
+
+
+metric is the summary of the fhese components:
+- Amount of sent messages
+- Amount of likes 
+Another:
+- Ignore disabled accounts
+
+show tables;
+desc posts;
+select * from posts;
+SELECT 
+	user_id
+FROM
+	profiles p 
+WHERE 
+	status != 'disabled';
+
+SELECT 
+	user_id,
+	COUNT(1) AS total_likes
+FROM 
+	likes
+GROUP BY user_id
+ORDER BY total_likes ASC;
+
+SELECT 
+	from_user_id,
+	COUNT(1) AS total_messages
+FROM 
+	messages m
+GROUP BY from_user_id
+ORDER BY total_messages;
+
+
+SELECT
+	user_id,
+	COUNT(1) AS total_posts
+FROM 
+	posts
+GROUP BY user_id 
+ORDER BY total_posts;
+
+select * from posts where user_id = 34;
+select * from likes where user_id = 53;
+show tables;
+select * from likes;
+select * from users;
+select * from profiles;
