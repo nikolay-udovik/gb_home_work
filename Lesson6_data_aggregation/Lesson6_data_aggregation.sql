@@ -121,22 +121,25 @@ ORDER BY total_likes DESC;
 /*
 README!
 
-score:
+score is:
+- score this is the social rating
 - score is a summary of all metrics
-metrics:
-- Amount of sent messages
-  - weight 10
-- Amount of likes 
-  - weight 100
-- Amount of posts
-  - weight 500
-- Ignore disabled accounts
+- profiles that are in a disabled state will be outside of this rate.
+
+metric is:
+- metric consists of the count of some action multiplied by the weight.
+
 what is "weight"? :
 - weight is a value assigned to each metric value and used as a multiplier for metrics.
 - the size of the weight depends on the importance of the metric. 
   - For example, writing posts is costs time and describes user activity in the social networks much better than messages or likes
   - likes are considered more expensive than messages because liking content is public action and also describes the social activity
   - message is the cheapest. Users can send a lot of messages and stay inactive in the community, but we still should consider it.
+  
+metrics:
+- Amount of sent messages * weight
+- Amount of likes * weight
+- Amount of posts * weight
 */
 
 show tables;
@@ -174,9 +177,94 @@ FROM
 GROUP BY user_id 
 ORDER BY total_posts;
 
-select * from posts where user_id = 34;
-select * from likes where user_id = 53;
-show tables;
-select * from likes;
-select * from users;
-select * from profiles;
+
+WITH active_users AS (
+	SELECT 
+		user_id
+	FROM
+		profiles p 
+	WHERE 
+		status != 'disabled'
+);
+
+
+
+
+
+-- ---------------
+-- Default weight values
+-- message = 3
+-- like = 10
+-- post = 500
+SET @weight_message := 3;
+SET @weight_like := 10;
+SET @weight_post := 500;
+
+SELECT 
+	from_user_id AS user_id,
+	COUNT(1) * @weight_message AS metric
+FROM 
+	messages m
+-- GROUP BY from_user_id
+-- ORDER BY total_messages
+UNION ALL
+SELECT 
+	user_id,
+	COUNT(1) * @weight_like AS metric
+FROM 
+	likes
+GROUP BY 
+	user_id
+ORDER BY
+	metric
+;
+-- using derived table
+-- ref https://dba.stackexchange.com/questions/90171/grouping-union-all
+WITH score AS (
+	SELECT 
+		user_id, 
+		SUM(metric) AS score 
+	FROM 
+	(
+		SELECT 
+			user_id,
+			COUNT(1) * @weight_like AS metric 
+		FROM 
+			likes l
+		GROUP BY user_id
+		UNION ALL
+		SELECT 
+			from_user_id AS user_id,
+			COUNT(1) * @weight_message AS metric
+		FROM 
+			messages m
+		GROUP BY user_id 
+		UNION ALL
+		SELECT
+			user_id,
+			COUNT(1) * @weight_post AS metric
+		FROM 
+			posts
+		GROUP BY user_id 
+	) AS metrics
+	GROUP BY user_id
+)
+-- now lets ask for 10 passive users :)
+SELECT 
+	user_id,
+	score
+FROM
+	score
+ORDER BY score ASC
+LIMIT 10;
+
+/*
+-- verify
+SELECT score FROM score WHERE user_id = 1; -- Score 1096
+SELECT target_id FROM likes WHERE user_id = 1; -- 3 * weight = 30
+SELECT from_user_id FROM messages WHERE from_user_id = 1; -- 22 * weight = 66
+SELECT user_id FROM posts WHERE user_id = 1; -- 2 * weight = 1000
+*/
+
+
+
