@@ -104,8 +104,18 @@ WITH ROLLUP;
 4. Определить кто больше поставил лайков (всего) - мужчины или женщины?
 */
 
-ß
+-- correlated subquerry is not the best idea.
+SELECT 
+	(SELECT gender FROM users u WHERE u.id = li.user_id AND gender IN('F', 'M')) AS gender,
+	COUNT(1) AS total_likes
+FROM 
+	likes li
+GROUP BY gender
+ORDER BY total_likes DESC;
+
+
 
 /*
 5. Найти 10 пользователей, которые проявляют наименьшую активность в использовании социальной сети.
 */
+
