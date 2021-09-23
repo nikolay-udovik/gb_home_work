@@ -2,6 +2,10 @@
 1. Проанализировать запросы, которые выполнялись на занятии, определить возможные корректировки и/или улучшения (JOIN пока не применять).
  */
 
+-- Пересмотрел запись так и не нашел до чего придраться. Для себя вынес что стоит избегать кореляционные под-запросы, которые мы использовали немало.z
+
+
+
 /*
 2. Пусть задан некоторый пользователь. 
 Из всех друзей этого пользователя найдите человека, который больше всех общался с нашим пользователем.
@@ -66,8 +70,6 @@ LIMIT 1;
 
 
 
-
-
 /*
 3. Подсчитать общее количество лайков, которые получили 10 самых молодых пользователей.
 */
@@ -78,7 +80,6 @@ WITH youngest_10 AS (
 	FROM profiles 
 	ORDER BY birthday ASC LIMIT 10
 )
--- select * from youngest_10;
 SELECT 
 	COUNT(1) AS likes,
 	CASE 
@@ -142,54 +143,6 @@ metrics:
 - Amount of posts * weight
 */
 
-show tables;
-desc posts;
-select * from posts;
-SELECT 
-	user_id
-FROM
-	profiles p 
-WHERE 
-	status != 'disabled';
-
-SELECT 
-	user_id,
-	COUNT(1) AS total_likes
-FROM 
-	likes
-GROUP BY user_id
-ORDER BY total_likes ASC;
-
-SELECT 
-	from_user_id,
-	COUNT(1) AS total_messages
-FROM 
-	messages m
-GROUP BY from_user_id
-ORDER BY total_messages;
-
-
-SELECT
-	user_id,
-	COUNT(1) AS total_posts
-FROM 
-	posts
-GROUP BY user_id 
-ORDER BY total_posts;
-
-
-WITH active_users AS (
-	SELECT 
-		user_id
-	FROM
-		profiles p 
-	WHERE 
-		status != 'disabled'
-);
-
-
-
-
 
 -- ---------------
 -- Default weight values
@@ -200,24 +153,6 @@ SET @weight_message := 3;
 SET @weight_like := 10;
 SET @weight_post := 500;
 
-SELECT 
-	from_user_id AS user_id,
-	COUNT(1) * @weight_message AS metric
-FROM 
-	messages m
--- GROUP BY from_user_id
--- ORDER BY total_messages
-UNION ALL
-SELECT 
-	user_id,
-	COUNT(1) * @weight_like AS metric
-FROM 
-	likes
-GROUP BY 
-	user_id
-ORDER BY
-	metric
-;
 -- using derived table
 -- ref https://dba.stackexchange.com/questions/90171/grouping-union-all
 WITH score AS (
