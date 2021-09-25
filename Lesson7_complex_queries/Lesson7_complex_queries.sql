@@ -3,23 +3,22 @@
 */
 
 -- INNER JOIN fits
-
-SELECT
+-- users with the same name name will be displayed.
+-- users that did few orders will be displayed once. 
+SELECT 
+	u.id AS user_id,
 	u.name AS customer_name
 FROM 
 	users AS u
 JOIN 
 	orders AS o
 ON u.id = o.user_id 
-GROUP BY customer_name;
+GROUP BY user_id;
 
 
 /*
 2. Выведите список товаров products и разделов catalogs, который соответствует товару.
 */
-
-select * from catalogs;
-select * from products;
 
 SELECT 
 	p.name AS product, 
@@ -37,3 +36,10 @@ ON c.id = p.catalog_id;
 Выведите список рейсов flights с русскими названиями городов.
 */
 
+SELECT 
+	flights.id AS flight_id,
+	from_rus.name AS `from`,
+	to_rus.name AS `to`
+FROM flights
+LEFT JOIN cities AS from_rus ON flights.`from` = from_rus.`label`
+LEFT JOIN cities AS to_rus ON flights.`to` = to_rus.`label`;
