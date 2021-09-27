@@ -31,7 +31,7 @@ ORDER BY total DESC LIMIT 1;
 2. Подсчитать общее количество лайков, которые получили пользователи младше 10 лет.
 */
 
--- sollution 1
+-- solution 1
 
 SELECT 	
  	CASE 
@@ -50,7 +50,7 @@ WITH ROLLUP;
 
 
 
--- sollution 2 - i think it should be faster
+-- solution 2 - i think it should be faster
 
 SELECT 
 	CASE 
