@@ -92,3 +92,18 @@ august.created_at = dates.created_at);
 4. (по желанию) Пусть имеется любая таблица с календарным полем created_at. 
 Создайте запрос, который удаляет устаревшие записи из таблицы, оставляя только 5 самых свежих записей.
 */
+
+START TRANSACTION;
+PREPARE row_count FROM '';
+EXECUTE row_count;
+
+
+SELECT @row_count := COUNT(*) FROM august;
+
+SELECT @row_count;
+
+SELECT
+	*,
+	@row_count = COUNT(1) OVER()
+FROM august
+ORDER BY created_at LIMIT @row_count OFFSET 5;
