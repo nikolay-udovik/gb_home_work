@@ -15,12 +15,25 @@ COMMIT;
 SELECT * FROM sample.users;
 SELECT * FROM shop.users;
 
+
+
 /*
 2. Создайте представление, которое выводит название name товарной позиции из таблицы products 
 и соответствующее название каталога name из таблицы catalogs.
 */
+select * from catalogs;
+select * from products;
 
+DROP VIEW IF EXISTS banana;
+CREATE VIEW banana AS
+SELECT 
+	p.name AS product_name,
+	c.name AS product_group
+FROM products p
+LEFT JOIN catalogs c ON (
+p.catalog_id = c.id);
 
+SELECT * FROM banana;
 
 
 
