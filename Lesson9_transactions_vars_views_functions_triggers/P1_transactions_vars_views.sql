@@ -3,51 +3,17 @@
 Переместите запись id = 1 из таблицы shop.users в таблицу sample.users. Используйте транзакции.
 */
 
-
--- NOTE:  my shop table called l9
-
--- create db sample with table users
-DROP DATABASE IF EXISTS sample;
-CREATE DATABASE sample;
-CREATE TABLE sample.users (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) DEFAULT NULL COMMENT 'Имя покупателя',
-  `birthday_at` date DEFAULT NULL COMMENT 'Дата рождения',
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='Покупатели'
-
--- let's begin
-
-
-DELIMITER //
-DROP PROCEDURE IF EXISTS move_one_record //
-CREATE PROCEDURE move_one_record (IN n_id INT)
-BEGIN
-	DECLARE n_name VARCHAR(255);
-	DECLARE n_birthday DATE; 
-	DECLARE n_created DATETIME;
-	DECLARE n_updated DATETIME;
-	SELECT name INTO n_name FROM l9.users WHERE id = n_id ; 
-	SELECT birthday_at INTO n_birthday FROM l9.users WHERE id =n_id ; 
-	SELECT created_at  INTO n_created FROM l9.users WHERE id = n_id; 
-	SELECT updated_at INTO n_updated FROM l9.users WHERE id = n_id ; 
-	START TRANSACTION;
-	INSERT INTO sample.users (id, name, birthday_at, created_at, updated_at)
-	VALUES (n_id, n_name, n_birthday, n_created, n_updated );
-	
-END//
-DELIMITER  ;
-
 START TRANSACTION;
-CALL fetch_users_fields(1);
+
+INSERT INTO sample.users 
+SELECT * FROM shop.users WHERE id = 1;
+
+DELETE FROM shop.users WHERE id = 1;
+
+COMMIT;
 
 SELECT * FROM sample.users;
-
-DROP PROCEDURE IF EXISTS move_one_record;
-COMMIT;
+SELECT * FROM shop.users;
 
 /*
 2. Создайте представление, которое выводит название name товарной позиции из таблицы products 
