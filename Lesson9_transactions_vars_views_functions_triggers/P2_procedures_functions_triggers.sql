@@ -30,7 +30,17 @@ SELECT hello();
 При попытке присвоить полям NULL-значение необходимо отменить операцию.
 */
 
-
+DELIMITER //
+DROP TRIGGER IF EXISTS update_trigger;
+CREATE TRIGGER update_trigger BEFORE UPDATE ON products
+FOR EACH ROW BEGIN 
+	IF NEW.name IS NULL AND NEW.description IS NULL THEN 
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'wooork pls';
+		-- RAISEERROR('exception: name and description are emptry');
+		-- ROLLBACK TRANSACTION;
+	END IF;
+END//
+DELIMITER ;
 
 
 
