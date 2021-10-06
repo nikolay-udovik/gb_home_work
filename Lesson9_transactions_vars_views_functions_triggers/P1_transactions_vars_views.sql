@@ -5,15 +5,15 @@
 
 START TRANSACTION;
 
-INSERT INTO sample.users 
-SELECT * FROM shop.users WHERE id = 1;
+INSERT INTO l9.users 
+SELECT * FROM l9.users WHERE id = 1;
 
-DELETE FROM shop.users WHERE id = 1;
+DELETE FROM l9.users WHERE id = 1;
 
 COMMIT;
 
 SELECT * FROM sample.users;
-SELECT * FROM shop.users;
+SELECT * FROM l9.users;
 
 
 
@@ -94,16 +94,10 @@ august.created_at = dates.created_at);
 */
 
 START TRANSACTION;
-PREPARE row_count FROM '';
-EXECUTE row_count;
+PREPARE delete_old_lines FROM 'DELETE FROM august WHERE 1 =1 ORDER BY created_at LIMIT ?';
 
+SET @row_count = (SELECT COUNT(*) - 5 FROM august);
+EXECUTE delete_old_lines USING @row_count;
 
-SELECT @row_count := COUNT(*) FROM august;
-
-SELECT @row_count;
-
-SELECT
-	*,
-	@row_count = COUNT(1) OVER()
-FROM august
-ORDER BY created_at LIMIT @row_count OFFSET 5;
+SELECT * FROM august;
+COMMIT;
