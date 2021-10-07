@@ -30,18 +30,30 @@ SELECT hello();
 При попытке присвоить полям NULL-значение необходимо отменить операцию.
 */
 
+-- unfortunetly we cannot create a single trigger for the update and insert both. 
+-- so my solution is to move trigger body to procedure and triggers will call this procedure.
+
 DELIMITER //
-DROP TRIGGER IF EXISTS update_trigger;
-CREATE TRIGGER update_trigger BEFORE UPDATE ON products
-FOR EACH ROW BEGIN 
+DROP TRIGGER IF EXISTS insert_trigger//
+CREATE TRIGGER insert_trigger BEFORE INSERT ON products
+FOR EACH ROW 
+BEGIN
 	IF NEW.name IS NULL AND NEW.description IS NULL THEN 
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'wooork pls';
-		-- RAISEERROR('exception: name and description are emptry');
-		-- ROLLBACK TRANSACTION;
+		/*
+		  State 45000 is a generic state representing "unhandled user-defined exception".
+		*/
+		SIGNAL SQLSTATE '45000' 
+		SET MESSAGE_TEXT = 'you are trying to assign NULL values for name and description';
 	END IF;
 END//
 DELIMITER ;
 
+desc products;
+insert into products (name) values ('banana');          -- ok
+insert into products (description) values ('banana');   -- ok
+insert into products (price) values(20);                -- not ok
+
+select * from products;
 
 
 /*
@@ -52,4 +64,25 @@ DELIMITER ;
 0  1  1  2  3  5  8  13  21  34  55
 */
 
+DELIMITER //
+DROP FUNCTION IF EXISTS FIBONACCI//
+CREATE FUNCTION FIBONACCI(n INT) 
+RETURNS INT READS SQL DATA
+BEGIN
+	DECLARE i INT DEFAULT 0;
+	DECLARE a INT DEFAULT 0;
+	DECLARE b INT DEFAULT 1;
+	DECLARE a_old INT DEFAULT 0;
+	DECLARE b_old INT DEFAULT 1;
+	WHILE i < n - 1 DO
+		SET a = b_old;
+		SET b = a_old + b_old;
+		SET a_old = a;
+		SET b_old = b;
+		SET i = i + 1;
+	END WHILE;
+	RETURN b;
+END//
+DELIMITER ;
 
+SELECT FIBONACCI(9);
